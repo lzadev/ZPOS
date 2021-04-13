@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using ZPOS.UI.Context;
+using ZPOS.UI.Interfaces;
+using ZPOS.UI.Repositories;
+using ZPOS.UI.Services;
 
 namespace ZPOS.UI
 {
@@ -21,6 +25,11 @@ namespace ZPOS.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ZposContext>(options => options.UseSqlServer(Configuration.GetConnectionString("zpostdb")));
+
+            services.AddScoped<IProduct, IProductRepository>();
+            services.AddScoped<IProductServices, ProductServices>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllersWithViews();
         }
 
