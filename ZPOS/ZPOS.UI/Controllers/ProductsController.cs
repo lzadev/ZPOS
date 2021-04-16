@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,25 +55,22 @@ namespace ZPOS.UI.Controllers
         //DONE
         public ActionResult PostProduct()
         {
-            var model = new CreateProductVM();
-
-            var categories = _mapper.Map<IEnumerable<CategoryVM>>(_categoryServices.GetCategories());
-
-            var brands = _mapper.Map<IEnumerable<BrandVM>>(_brandServices.GetBrands());
-
-            model.Categories = categories.ToList();
-            model.Brands = brands.ToList();
-
-            var codeProductGenerated = GenerateCodeForProduct.Generate();
-
-            while (_productServices.ExistsCode(codeProductGenerated))
+            try
             {
-                codeProductGenerated = GenerateCodeForProduct.Generate();
+                var model = new CreateProductVM();
+
+                model.Categories = GetCategories();
+                model.Brands = GetBrands();
+                model.Code = GetGenerateCodeForProduct();
+
+                return PartialView("_FormCreateProduct", model);
+            }
+            catch(Exception e)
+            {
+                //TODO: Log the exception
+                return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
             }
 
-            model.Code = codeProductGenerated;
-
-            return PartialView("_FormCreateProduct", model);
         }
 
         [HttpPost]
@@ -102,16 +100,7 @@ namespace ZPOS.UI.Controllers
                     return Json("Producto creato con exito.!");
                 }
 
-                var errors = "";
-
-                foreach(var modelState in ModelState.Values)
-                {
-                    foreach(var error in modelState.Errors)
-                    {
-                        errors += error.ErrorMessage;
-                    }
-                }
-                return BadRequest(errors);
+                return BadRequest(GetErrorsFormated(ModelState));
             }
             catch(Exception ex)
             {
@@ -134,7 +123,7 @@ namespace ZPOS.UI.Controllers
 
                     if (result)
                     {
-                        return Json("Producto borrado con exito!");
+                        return Json("Producto eliminado con exito!");
                     }
 
                     return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
@@ -159,10 +148,6 @@ namespace ZPOS.UI.Controllers
                 var product = _productServices.GetPrductById(id);
                 if (product == null) return BadRequest("El producto que tratas de editar no existe!");
 
-                var categories = _mapper.Map<IEnumerable<CategoryVM>>(_categoryServices.GetCategories());
-
-                var brands = _mapper.Map<IEnumerable<BrandVM>>(_brandServices.GetBrands());
-
                 var model = new UpdateProductVM
                 {
                     ID = product.ID,
@@ -171,10 +156,11 @@ namespace ZPOS.UI.Controllers
                     CategoryID = product.CategoryID,
                     BrandID = product.BrandID,
                     BuyPrice = product.BuyPrice,
-                    SellPrice = product.SellPrice
+                    SellPrice = product.SellPrice,
+                    Status = product.Status
                 };
-                model.Categories = categories.ToList();
-                model.Brands = brands.ToList();
+                model.Categories = GetCategories();
+                model.Brands = GetBrands();
 
                 return PartialView("_FormEditProduct", model);
             }
@@ -206,9 +192,7 @@ namespace ZPOS.UI.Controllers
                     productToEdit.BrandID = model.BrandID;
                     productToEdit.BuyPrice = model.BuyPrice;
                     productToEdit.SellPrice = model.SellPrice;
-
-
-                    //var productToEditWithChanges = _mapper.Map(productToEdit, model);
+                    productToEdit.Status = model.Status;
 
                     var result = _productServices.UpdateProduct(productToEdit);
 
@@ -220,22 +204,53 @@ namespace ZPOS.UI.Controllers
                     return Json("Producto actualizado con exito.!");
                 }
 
-                var errors = "";
-
-                foreach (var modelState in ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        errors += error.ErrorMessage;
-                    }
-                }
-                return BadRequest(errors);
+                return BadRequest(GetErrorsFormated(ModelState));
             }
             catch (Exception ex)
             {
                 //TODO: Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
             }
+        }
+
+        private List<CategoryVM> GetCategories()
+        {
+            var categories = _mapper.Map<IEnumerable<CategoryVM>>(_categoryServices.GetCategories());
+
+            return categories.ToList();
+        }
+
+        private List<BrandVM> GetBrands()
+        {
+            var brands = _mapper.Map<IEnumerable<BrandVM>>(_brandServices.GetBrands());
+            return brands.ToList();
+        }
+
+        private string GetGenerateCodeForProduct()
+        {
+            var codeGeneratedFoProduct = GenerateCodeForProduct.Generate();
+
+            while (_productServices.ExistsCode(codeGeneratedFoProduct))
+            {
+                codeGeneratedFoProduct = GenerateCodeForProduct.Generate();
+            }
+
+            return codeGeneratedFoProduct;
+        }
+
+        private string GetErrorsFormated(ModelStateDictionary modelState)
+        {
+            var errors = "";
+
+            foreach (var model in modelState.Values)
+            {
+                foreach (var error in model.Errors)
+                {
+                    errors += error.ErrorMessage;
+                }
+            }
+
+            return errors;
         }
     }
 }

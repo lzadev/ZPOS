@@ -12,5 +12,7 @@ namespace ZPOS.UI.Models
         public decimal BuyPrice { get; set; }
         public decimal SellPrice { get; set; }
         public DateTime CreationDate { get; set; }
+        public bool Status { get; set; }
+
     }
 }

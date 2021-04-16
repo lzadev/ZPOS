@@ -27,5 +27,7 @@ namespace ZPOS.UI.Entities
         public decimal SellPrice { get; set; }
         [Required]
         public DateTime CreationDate { get; set; }
+        [Required]
+        public bool Status { get; set; }
     }
 }

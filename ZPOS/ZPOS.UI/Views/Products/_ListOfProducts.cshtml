@@ -27,19 +27,20 @@
         <tbody>
             @foreach (var product in Model)
             {
-                <tr>
-                    <td>@product.Code</td>
-                    <td width="30%">@product.Description</td>
-                    <td>@product.Category</td>
-                    <td>@product.Brand</td>
-                    <td>@product.BuyPrice</td>
-                    <td>@product.SellPrice</td>
-                    <td>Activo</td>
-                    <td>@product.CreationDate</td>
-                    <td>
-                        <a data-productId="@product.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i> Editar</a> | <a data-productId="@product.ID" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i> Eliminar</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@product.Code</td>
+                <td width="30%">@product.Description</td>
+                <td>@product.Category</td>
+                <td>@product.Brand</td>
+                <td>@product.BuyPrice</td>
+                <td>@product.SellPrice</td>
+                @if (product.Status) {<td class="text-success font-weight-bold">Activo</td> }
+                else {<td class="text-danger font-weight-bold">Inactivo</td>}
+                <td>@product.CreationDate</td>
+                <td>
+                    <a data-productId="@product.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i> Editar</a> | <a data-productId="@product.ID" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -54,7 +55,7 @@
 
         Swal.fire({
             title: '¿Estas seguro?',
-            text: "Esta transaction no tiene reverso!!!",
+            text: "Esta transacción no tiene reverso!!!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#007bff',

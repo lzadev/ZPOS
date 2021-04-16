@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
             <form id="formEditProduct" method="post" asp-antiforgery="false">
-                <input asp-for="ID" hidden/>
+                <input asp-for="ID" hidden />
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label asp-for="Code">Código</label>
@@ -51,6 +51,15 @@
                         <label asp-for="SellPrice">Precio venta</label>
                         <input type="text" class="form-control" asp-for="SellPrice">
                         <span class="text-danger" asp-validation-for="SellPrice"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="Status">
+                        @if (Model.Status)
+                        {<label class="form-check-label" asp-for="Status">Inactivar</label>}
+                        else
+                        {<label class="form-check-label" asp-for="Status">Activar</label>}
                     </div>
                 </div>
             </form>
