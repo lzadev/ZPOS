@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Administrar productos</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    <li class="breadcrumb-item active">Products</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!--card-->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <a class="btn btn-primary font-weight-bold text-white justify-content-end" id="btnLoadFormCreateProduct">Agregar producto</a>
+                    </div>
+                    <div class="card-body" id="divProducts">
+                        <!--List of products here-->
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Create Product -->
+<div class="modal fade" id="modal-create-product" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
+
+<!-- Modal Edit Product -->
+<div class="modal fade" id="modal-Edit-product" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
+
+<script src="~/js/Products.js"></script>
+<!-- /.content -->
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            GetProductos().then(products => {
+                $("#divProducts").html(products);
+            }).catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error
+                });
+            });
+        });
+
+        $('#btnLoadFormCreateProduct').click(function () {
+
+            LoadFormCreateProduct().then(form => {
+                $("#modal-create-product").html(form);
+
+                $("#modal-create-product").modal("show");
+            }).catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error
+                });
+            });
+        });
+    </script>
+}

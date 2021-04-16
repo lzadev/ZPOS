@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery-serialize-object@2.5.0",
+      "destination": "wwwroot/lib/jquery-serialize-object/"
+    },
+    {
+      "library": "jquery.inputmask@5.0.5",
+      "destination": "wwwroot/lib/jquery.inputmask/"
+    },
+    {
+      "library": "limonte-sweetalert2@10.16.2",
+      "destination": "wwwroot/lib/limonte-sweetalert2/"
+    }
+  ]
+}

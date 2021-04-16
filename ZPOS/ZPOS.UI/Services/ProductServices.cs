@@ -18,6 +18,32 @@ namespace ZPOS.UI.Services
         public IEnumerable<Product> GetProducts()
         {
             return _productRepository.GetProducts();
+
+        }
+
+        public bool ExistsCode(string code)
+        {
+            return _productRepository.ExistsCode(code);
+        }
+
+        public bool addProduct(Product product)
+        {
+            return _productRepository.addProduct(product);
+        }
+
+        public Product GetPrductById(int id)
+        {
+            return _productRepository.GetPrductById(id);
+        }
+
+        public bool DeleteProduct(Product product)
+        {
+            return _productRepository.DeleteProduct(product);
+        }
+
+        public bool UpdateProduct(Product product)
+        {
+            return _productRepository.UpdateProduct(product);
         }
     }
 }

@@ -26,11 +26,17 @@ namespace ZPOS.UI
         {
             services.AddDbContext<ZposContext>(options => options.UseSqlServer(Configuration.GetConnectionString("zpostdb")));
 
-            services.AddScoped<IProduct, IProductRepository>();
+            services.AddScoped<IProduct, ProductRepository>();
             services.AddScoped<IProductServices, ProductServices>();
 
+            services.AddScoped<IBrand, BrandRepository>();
+            services.AddScoped<IBrandServices, BrandServices>();
+
+            services.AddScoped<ICategory, CategoryRepository>();
+            services.AddScoped<ICategoryServices, CategoryServices>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,111 @@
+﻿@model ZPOS.UI.Models.CreateProductVM
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="formProduct" method="post" asp-antiforgery="false">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="Code">Código</label>
+                        <input type="text" class="form-control" asp-for="Code"  readonly>
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="Description">Descripcíon</label>
+                        <input asp-for="Description" class="form-control">
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="CategoryID">Categoría</label>
+                        @Html.DropDownListFor(p => p.CategoryID, new SelectList(Model.Categories, "ID", "Name"), "Seleccionar...", new { @class = "form-control" })
+                        <span class="text-danger" asp-validation-for="CategoryID"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="BrandID">Marca</label>
+                        @Html.DropDownListFor(p => p.BrandID, new SelectList(Model.Brands, "ID", "Name"), "Seleccionar...", new { @class = "form-control" })
+                        <span class="text-danger" asp-validation-for="BrandID"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="BuyPrice">Precio compra</label>
+                        <input type="text" class="form-control" asp-for="BuyPrice">
+                        <span class="text-danger" asp-validation-for="BuyPrice"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="SellPrice">Precio venta</label>
+                        <input type="text" class="form-control" asp-for="SellPrice">
+                        <span class="text-danger" asp-validation-for="SellPrice"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="saveProduct" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery-serialize-object/jquery.serialize-object.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/jquery.inputmask/jquery.inputmask.min.js"></script>
+<script src="~/js/Products.js"></script>
+<script>
+    //MASCARA PARA LOS INPUTS BuyPrice Y SellPrice
+    $("#BuyPrice").inputmask('currency', {
+        rightAlign: false
+    })
+
+    $("#SellPrice").inputmask('currency', {
+        rightAlign: false
+    })
+
+    $('#saveProduct').on('click', function () {
+        if ($("#formProduct").valid()) {
+            $('#saveProduct').attr('disabled', true);
+            var model = $('#formProduct').serializeObject();
+            SaveNewProduct(model).then((result) => {
+                Swal.fire(
+                    'Transacíon con exito!',
+                    result.message,
+                    'success'
+                );
+
+                $("#modal-create-product").modal("hide");
+
+                GetProductos().then(products => {
+                    $("#divProducts").html(products);
+                }).catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error
+                    });
+                });
+            }).catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.message
+                });
+                $('#saveProduct').attr('disabled', false);
+            });
+        }
+        return false;
+    });
+</script>

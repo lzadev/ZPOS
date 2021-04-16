@@ -1,0 +1,112 @@
+﻿@model IEnumerable<ZPOS.UI.Models.ProductVM>
+    <style>
+        .btnDelete {
+            color: white !important;
+            font-weight: bold !important;
+        }
+
+        .btnEdit {
+            color: white !important;
+            font-weight: bold !important;
+        }
+    </style>
+    <table class="table table-head-fixed text-nowrap table-striped table-bordered table-sm table-responsive" id="table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Categoría</th>
+                <th>Marca</th>
+                <th>Precio de compra</th>
+                <th>Precio de venta</th>
+                <th>Estado</th>
+                <th>Agregado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Code</td>
+                    <td width="30%">@product.Description</td>
+                    <td>@product.Category</td>
+                    <td>@product.Brand</td>
+                    <td>@product.BuyPrice</td>
+                    <td>@product.SellPrice</td>
+                    <td>Activo</td>
+                    <td>@product.CreationDate</td>
+                    <td>
+                        <a data-productId="@product.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i> Editar</a> | <a data-productId="@product.ID" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script src="~/js/configDataTable.js"></script>
+<script src="~/js/\Products.js"></script>
+<script>
+
+    $('.btnDelete').on('click', function () {
+        var id = $(this).attr("data-productId");
+        console.log(id);
+
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Esta transaction no tiene reverso!!!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#007bff',
+            cancelButtonColor: '#dc3545',
+            confirmButtonText: 'Si, eliminalo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                DeleteProduct(id).then(result => {
+                    Swal.fire(
+                        'Eliminado!',
+                        result,
+                        'success'
+                    )
+
+                    GetProductos().then(products => {
+                        $("#divProducts").html(products);
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error
+                        });
+                    });
+
+                }).catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error
+                    });
+                });
+            }
+        })
+    });
+
+    $('.btnEdit').click(function () {
+        var id = $(this).attr("data-productId");
+        LoadFormEditProduct(id).then(form => {
+            $("#modal-Edit-product").html(form);
+
+            $("#modal-Edit-product").modal("show");
+        }).catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error
+            });
+        });
+    });
+
+
+
+
+
+</script>
