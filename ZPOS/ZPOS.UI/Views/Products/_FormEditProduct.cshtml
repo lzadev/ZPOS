@@ -55,11 +55,11 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" asp-for="Status">
                         @if (Model.Status)
-                        {<label class="form-check-label" asp-for="Status">Inactivar</label>}
+                        {<label asp-for="Status">Inactivar</label>}
                         else
-                        {<label class="form-check-label" asp-for="Status">Activar</label>}
+                        {<label asp-for="Status">Activar</label>}
+                        <input asp-for="Status">
                     </div>
                 </div>
             </form>
@@ -89,7 +89,11 @@
     $('#btnSaveProductEdited').on('click', function () {
         if ($("#formEditProduct").valid()) {
             $('#btnSaveProductEdited').attr('disabled', true);
+
             var model = $('#formEditProduct').serializeObject();
+
+            model.Status = $("#Status").is(':checked');
+
             SaveProductEdited(model).then((result) => {
                 Swal.fire(
                     'Transacíon con exito!',
