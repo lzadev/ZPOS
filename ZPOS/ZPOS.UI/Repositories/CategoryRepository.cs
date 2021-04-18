@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZPOS.UI.Context;
 using ZPOS.UI.Entities;
 using ZPOS.UI.Interfaces;
@@ -30,7 +32,7 @@ namespace ZPOS.UI.Repositories
 
         public Category GetCategoryById(int id)
         {
-            return _context.Categories.Find(id);
+            return _context.Categories.Include(c => c.Products).FirstOrDefault(c => c.ID ==id);
         }
 
         private bool Save()

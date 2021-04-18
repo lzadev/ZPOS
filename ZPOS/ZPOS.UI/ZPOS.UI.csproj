@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20210413091118_initial.Designer.cs" />
     <Compile Remove="Migrations\20210416143256_AddStatusToProduct.cs" />
     <Compile Remove="Migrations\20210416143256_AddStatusToProduct.Designer.cs" />
+    <Compile Remove="Migrations\20210418211838_modificandoRleacionEntreCategoria&amp;Producto.cs" />
+    <Compile Remove="Migrations\20210418211838_modificandoRleacionEntreCategoria&amp;Producto.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using ZPOS.UI.Context.seedDB;
 using ZPOS.UI.Entities;
 
@@ -15,12 +16,17 @@ namespace ZPOS.UI.Context
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        { 
             modelBuilder.ApplyConfiguration(new SeedBrand());
             modelBuilder.ApplyConfiguration(new SeedCategory());
             modelBuilder.ApplyConfiguration(new SeedProduct());
 
             base.OnModelCreating(modelBuilder);
+
+            foreach (var fks in modelBuilder.Model.FindEntityType(typeof(Product)).GetForeignKeys())
+            {
+                fks.DeleteBehavior = DeleteBehavior.NoAction;
+            }
         }
     }
 }

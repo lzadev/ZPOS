@@ -184,7 +184,7 @@ namespace ZPOS.UI.Controllers
                     if(productToEdit == null) return BadRequest("El producto que trata de actualizar no existe!");
                     if (model.BuyPrice > model.SellPrice)
                     {
-                        return BadRequest("El precio de venta de ser mayor al de compra");
+                        return BadRequest("El precio de venta tiene que ser mayor al de compra");
                     }
 
                     productToEdit.Description = model.Description;

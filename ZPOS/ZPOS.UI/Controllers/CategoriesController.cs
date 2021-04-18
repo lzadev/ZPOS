@@ -52,6 +52,8 @@ namespace ZPOS.UI.Controllers
 
                 if (category != null)
                 {
+                    if (category.Products.Count > 0) return BadRequest($"Para eliminar esta Categoría no deben de haber Productos en ella y esta categoría tiene {category.Products.Count} Productos.");
+
                     var result = _categoryServices.DeleteCategory(category);
 
                     if (result)

@@ -28,7 +28,7 @@ function SaveNewProduct(model) {
         }).done(function (result) {
             resolve({ message: result });
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            reject({ message: jqXHR.responseText });
+            reject(jqXHR.responseText);
         });
     });
 }
@@ -56,7 +56,7 @@ function DeleteProduct(id) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "DELETE",
-            url: `Products/DeleteProduct?id=${id}`,
+            url: `/Products/DeleteProduct?id=${id}`,
             dataType: "json",
             async: true
         }).done(function (result) {
@@ -90,7 +90,7 @@ function SaveProductEdited(model) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "PUT",
-            url: "/Products/EditProduct",
+            url: "Products/EditProduct",
             dataType: "json",
             data: model,
             async: true
