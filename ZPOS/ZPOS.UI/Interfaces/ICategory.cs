@@ -9,6 +9,8 @@ namespace ZPOS.UI.Interfaces
 
         Category GetCategoryById(int id);
 
+        bool AddCategory(Category category);
+
         bool DeleteCategory(Category category);
     }
 }

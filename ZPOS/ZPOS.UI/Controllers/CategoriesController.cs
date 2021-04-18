@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ZPOS.UI.Entities;
+using ZPOS.UI.Helpers;
 using ZPOS.UI.Interfaces;
 using ZPOS.UI.Models;
 
@@ -35,9 +35,10 @@ namespace ZPOS.UI.Controllers
 
                 var categoriesToReturn = _mapper.Map<IEnumerable<CategoryVM>>(categories);
 
-                return PartialView("_ListOfCategories",categoriesToReturn);
+                return PartialView("_ListOfCategories", categoriesToReturn);
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Las categorías no pudieron ser cargadas.");
             }
@@ -52,7 +53,7 @@ namespace ZPOS.UI.Controllers
 
                 if (category != null)
                 {
-                    if (category.Products.Count > 0) return BadRequest($"Para eliminar esta Categoría no deben de haber Productos en ella y esta categoría tiene {category.Products.Count} Productos.");
+                    if (category.Products.Count > 0) return BadRequest($"Para eliminar esta Categoría no deben de haber Productos en ella y esta categoría tiene {category.Products.Count} Producto(s).");
 
                     var result = _categoryServices.DeleteCategory(category);
 
@@ -66,6 +67,51 @@ namespace ZPOS.UI.Controllers
 
                 return BadRequest("La Categoría que tratas de eliminar no existe");
 
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log the exception
+                return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
+            }
+        }
+
+        [HttpGet]
+        //DONE
+        public ActionResult PostCategory()
+        {
+            try
+            {
+                return PartialView("_FormCreateCategory", new CreateCategoryVM());
+            }
+            catch (Exception e)
+            {
+                //TODO: Log the exception
+                return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
+            }
+
+        }
+
+        [HttpPost]
+        //DONE
+        public ActionResult PostCategory(CreateCategoryVM model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var categoryToCreate = _mapper.Map<Category>(model);
+
+                    var result = _categoryServices.AddCategory(categoryToCreate);
+
+                    if (!result)
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
+                    }
+
+                    return Json("La categoría ha sido agregada.");
+                }
+
+                return BadRequest(FormatedModelStateErrors.GetErrorsFormated(ModelState));
             }
             catch (Exception ex)
             {

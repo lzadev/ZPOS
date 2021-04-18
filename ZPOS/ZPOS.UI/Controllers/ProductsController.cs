@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ZPOS.UI.Entities;
 using ZPOS.UI.Helper;
+using ZPOS.UI.Helpers;
 using ZPOS.UI.Interfaces;
 using ZPOS.UI.Models;
 
@@ -90,17 +91,19 @@ namespace ZPOS.UI.Controllers
 
                     var productToCreate = _mapper.Map<Product>(model);
 
-                    var result = _productServices.addProduct(productToCreate);
+                    productToCreate.Status = true;
+
+                    var result = _productServices.AddProduct(productToCreate);
 
                     if (!result)
                     {
                         return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
                     }
 
-                    return Json("Producto creato con exito.!");
+                    return Json("El producto a sido agregado");
                 }
 
-                return BadRequest(GetErrorsFormated(ModelState));
+                return BadRequest(FormatedModelStateErrors.GetErrorsFormated(ModelState));
             }
             catch(Exception ex)
             {
@@ -204,7 +207,7 @@ namespace ZPOS.UI.Controllers
                     return Json("Producto actualizado con exito.!");
                 }
 
-                return BadRequest(GetErrorsFormated(ModelState));
+                return BadRequest(FormatedModelStateErrors.GetErrorsFormated(ModelState));
             }
             catch (Exception ex)
             {
@@ -238,19 +241,5 @@ namespace ZPOS.UI.Controllers
             return codeGeneratedFoProduct;
         }
 
-        private string GetErrorsFormated(ModelStateDictionary modelState)
-        {
-            var errors = "";
-
-            foreach (var model in modelState.Values)
-            {
-                foreach (var error in model.Errors)
-                {
-                    errors += error.ErrorMessage;
-                }
-            }
-
-            return errors;
-        }
     }
 }

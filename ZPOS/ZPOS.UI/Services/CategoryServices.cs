@@ -14,6 +14,11 @@ namespace ZPOS.UI.Services
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
+        public bool AddCategory(Category category)
+        {
+            return _categoryRepository.AddCategory(category);
+        }
+
         public bool DeleteCategory(Category category)
         {
             return _categoryRepository.DeleteCategory(category);

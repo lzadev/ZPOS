@@ -6,7 +6,7 @@ namespace ZPOS.UI.Interfaces
     public interface IProduct
     {
         IEnumerable<Product> GetProducts();
-        bool addProduct(Product product);
+        bool AddProduct(Product product);
         bool ExistsCode(string code);
 
         Product GetPrductById(int id);

@@ -47,7 +47,7 @@
 <div class="modal fade" id="modal-Edit-category" tabindex="-1" role="dialog" aria-hidden="true">
 
 </div>
-<script src="~/js/Categories.js"></script>
+<script src="~/js/Cagetories.js"></script>
 @section Scripts{ 
     <script>
         $(document).ready(function () {
@@ -61,6 +61,22 @@
                 });
             });
         });
+
+        $("#btnLoadFormCreateCategory").click(function () {
+
+            LoadFormCreateCategory().then(form => {
+                $("#modal-create-category").html(form);
+
+                $("#modal-create-category").modal("show");
+            }).catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error
+                });
+            });
+        });
+
     </script>
 }
 

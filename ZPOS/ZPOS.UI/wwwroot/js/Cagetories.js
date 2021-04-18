@@ -32,3 +32,43 @@ function DeleteCategory(id) {
         });
     });
 }
+
+
+function LoadFormCreateCategory() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            method: "GET",
+            url: "/Categories/PostCategory",
+            contentType: "charset=UTF-8",
+            dataType: "html",
+            async: true,
+            cache: false
+        }).done((form) => {
+
+            resolve(form);
+
+        }).fail((jqXHR, textStatus, errorThrown) => {
+            reject(jqXHR.responseText);
+        });
+    });
+}
+
+
+function SaveNewCategory(model) {
+
+    console.log("in fn")
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "Categories/PostCategory",
+            data: model,
+            dataType: "json",
+            async: true
+
+        }).done(function (result) {
+            resolve(result);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            reject(jqXHR.responseText);
+        });
+    });
+}

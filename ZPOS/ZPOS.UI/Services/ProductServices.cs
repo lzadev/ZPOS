@@ -26,9 +26,9 @@ namespace ZPOS.UI.Services
             return _productRepository.ExistsCode(code);
         }
 
-        public bool addProduct(Product product)
+        public bool AddProduct(Product product)
         {
-            return _productRepository.addProduct(product);
+            return _productRepository.AddProduct(product);
         }
 
         public Product GetPrductById(int id)

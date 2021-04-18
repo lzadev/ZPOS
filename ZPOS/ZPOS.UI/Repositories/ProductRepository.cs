@@ -17,7 +17,7 @@ namespace ZPOS.UI.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public bool addProduct(Product product)
+        public bool AddProduct(Product product)
         {
             _context.Add(product);
 

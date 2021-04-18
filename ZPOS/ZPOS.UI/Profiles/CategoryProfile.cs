@@ -9,6 +9,7 @@ namespace ZPOS.UI.Profiles
         public CategoryProfile()
         {
             CreateMap<Category, CategoryVM>();
+            CreateMap<CreateCategoryVM, Category>();
         }
     }
 }

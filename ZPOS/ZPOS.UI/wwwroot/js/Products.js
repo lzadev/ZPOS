@@ -26,7 +26,7 @@ function SaveNewProduct(model) {
             async: true
 
         }).done(function (result) {
-            resolve({ message: result });
+            resolve(result);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             reject(jqXHR.responseText);
         });
