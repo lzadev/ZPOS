@@ -15,9 +15,27 @@ namespace ZPOS.UI.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public bool DeleteCategory(Category category)
+        {
+            _context.Categories.Remove(category);
+
+
+            return Save();
+        }
+
         public IEnumerable<Category> GetCategories()
         {
             return _context.Categories;
+        }
+
+        public Category GetCategoryById(int id)
+        {
+            return _context.Categories.Find(id);
+        }
+
+        private bool Save()
+        {
+            return _context.SaveChanges() > 0;
         }
     }
 }
