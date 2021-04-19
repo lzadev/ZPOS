@@ -12,5 +12,7 @@ namespace ZPOS.UI.Interfaces
         bool AddCategory(Category category);
 
         bool DeleteCategory(Category category);
+
+        bool UpdateCategory(Category category);
     }
 }

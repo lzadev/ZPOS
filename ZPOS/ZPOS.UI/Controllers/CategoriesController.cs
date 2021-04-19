@@ -119,5 +119,59 @@ namespace ZPOS.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
             }
         }
+
+        [HttpGet]
+        //DONE
+        public ActionResult EditCategory(int id)
+        {
+            try
+            {
+                var category = _categoryServices.GetCategoryById(id);
+                if (category == null) return BadRequest("La categoría que tratas de editar no existe!");
+
+                var categoryToEdit = _mapper.Map<CategoryVM>(category);
+
+
+                return PartialView("_FormEditCategory", categoryToEdit);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log the exception
+                return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
+            }
+        }
+
+        [HttpPut]
+        //DONE
+        public ActionResult EditCategory(CategoryVM model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var categoryToEdit = _categoryServices.GetCategoryById(model.ID);
+
+                    if (categoryToEdit == null) return BadRequest("La categoría que tratas de actualizar no existe!");
+
+                    categoryToEdit.Name = model.Name;
+
+                    var result = _categoryServices.UpdateCategory(categoryToEdit);
+
+                    if (!result)
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal trantando de actualizar la categoría, contacta el Administrador");
+                    }
+
+                    return Json("Categoría actualizada con exito.!");
+                }
+
+                return BadRequest(FormatedModelStateErrors.GetErrorsFormated(ModelState));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log the exception
+                return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
+            }
+        }
     }
 }

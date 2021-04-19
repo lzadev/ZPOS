@@ -33,5 +33,10 @@ namespace ZPOS.UI.Services
         {
             return _categoryRepository.GetCategoryById(id);
         }
+
+        public bool UpdateCategory(Category category)
+        {
+            return _categoryRepository.UpdateCategory(category);
+        }
     }
 }

@@ -75,18 +75,18 @@
         })
     });
 
-    //$('.btnEdit').click(function () {
-    //    var id = $(this).attr("data-productId");
-    //    LoadFormEditProduct(id).then(form => {
-    //        $("#modal-Edit-product").html(form);
+    $('.btnEdit').click(function () {
+        var id = $(this).attr("data-categoryId");
+        LoadFormEditCategory(id).then(form => {
+            $("#modal-edit-category").html(form);
 
-    //        $("#modal-Edit-product").modal("show");
-    //    }).catch(error => {
-    //        Swal.fire({
-    //            icon: 'error',
-    //            title: 'Oops...',
-    //            text: error
-    //        });
-    //    });
-    //});
+            $("#modal-edit-category").modal("show");
+        }).catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error
+            });
+        });
+    });
 </script>

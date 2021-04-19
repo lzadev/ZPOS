@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +65,7 @@ namespace ZPOS.UI.Controllers
 
                 return PartialView("_FormCreateProduct", model);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //TODO: Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
@@ -82,7 +81,7 @@ namespace ZPOS.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if(model.BuyPrice > model.SellPrice)
+                    if (model.BuyPrice > model.SellPrice)
                     {
                         return BadRequest("El precio de venta de ser mayor al de compra");
                     }
@@ -100,12 +99,12 @@ namespace ZPOS.UI.Controllers
                         return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
                     }
 
-                    return Json("El producto a sido agregado");
+                    return Json("El producto ha sido agregado");
                 }
 
                 return BadRequest(FormatedModelStateErrors.GetErrorsFormated(ModelState));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //TODO: Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
@@ -167,12 +166,12 @@ namespace ZPOS.UI.Controllers
 
                 return PartialView("_FormEditProduct", model);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //TODO: Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
             }
-        } 
+        }
 
         [HttpPut]
         //DONE
@@ -184,7 +183,7 @@ namespace ZPOS.UI.Controllers
                 {
                     var productToEdit = _productServices.GetPrductById(model.ID);
 
-                    if(productToEdit == null) return BadRequest("El producto que trata de actualizar no existe!");
+                    if (productToEdit == null) return BadRequest("El producto que trata de actualizar no existe!");
                     if (model.BuyPrice > model.SellPrice)
                     {
                         return BadRequest("El precio de venta tiene que ser mayor al de compra");

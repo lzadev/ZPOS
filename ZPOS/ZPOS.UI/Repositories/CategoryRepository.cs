@@ -42,6 +42,13 @@ namespace ZPOS.UI.Repositories
             return _context.Categories.Include(c => c.Products).FirstOrDefault(c => c.ID ==id);
         }
 
+        public bool UpdateCategory(Category category)
+        {
+            _context.Categories.Update(category);
+
+            return Save();
+        }
+
         private bool Save()
         {
             return _context.SaveChanges() > 0;

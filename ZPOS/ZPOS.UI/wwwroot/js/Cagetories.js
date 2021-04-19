@@ -72,3 +72,40 @@ function SaveNewCategory(model) {
         });
     });
 }
+
+
+function LoadFormEditCategory(id) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            method: "GET",
+            url: `/Categories/EditCategory?id=${id}`,
+            contentType: "charset=UTF-8",
+            dataType: "html",
+            async: true,
+            cache: false
+        }).done((form) => {
+
+            resolve(form);
+
+        }).fail((jqXHR, textStatus, errorThrown) => {
+            reject(jqXHR.responseText);
+        });
+    });
+}
+
+
+function SaveCategoryEdited(model) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "PUT",
+            url: "Categories/EditCategory",
+            dataType: "json",
+            data: model,
+            async: true
+        }).done(function (result) {
+            resolve(result);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            reject(jqXHR.responseText);
+        });
+    });
+}
