@@ -83,12 +83,11 @@ namespace ZPOS.UI.Controllers
             {
                 return PartialView("_FormCreateCategory", new CreateCategoryVM());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 //TODO: Log the exception
-                return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al cargar el formulario");
             }
-
         }
 
         [HttpPost]

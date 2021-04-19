@@ -9,6 +9,8 @@ namespace ZPOS.UI.Profiles
         public BrandProfile()
         {
             CreateMap<Brand, BrandVM>();
+
+            CreateMap<CreateBrandVM, Brand>();
         }
     }
 }

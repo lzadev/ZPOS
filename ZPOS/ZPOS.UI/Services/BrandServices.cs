@@ -14,9 +14,29 @@ namespace ZPOS.UI.Services
             _brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
         }
 
+        public bool AddBrand(Brand brand)
+        {
+            return _brandRepository.AddBrand(brand);
+        }
+
+        public bool DeleteBrand(Brand brand)
+        {
+            return _brandRepository.DeleteBrand(brand);
+        }
+
+        public Brand GetBrandById(int id)
+        {
+            return _brandRepository.GetBrandById(id);
+        }
+
         public IEnumerable<Brand> GetBrands()
         {
             return _brandRepository.GetBrands();
+        }
+
+        public bool UpdateBrand(Brand brand)
+        {
+            return _brandRepository.UpdateBrand(brand);
         }
     }
 }

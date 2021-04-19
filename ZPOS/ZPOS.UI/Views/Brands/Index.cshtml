@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Categorías";
+    ViewData["Title"] = "Marcas";
 }
 
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h5>Administrar categorías</h5>
+                <h5>Administrar marcas</h5>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Inicio</a></li>
-                    <li class="breadcrumb-item active">Categorías</li>
+                    <li class="breadcrumb-item active">Marcas</li>
                 </ol>
             </div>
         </div>
@@ -27,9 +27,9 @@
             <!--card-->
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <a class="btn btn-primary font-weight-bold text-white justify-content-end" id="btnLoadFormCreateCategory">Agregar categoría</a>
+                    <a class="btn btn-primary font-weight-bold text-white justify-content-end" id="btnLoadFormCreateBrand">Agregar marca</a>
                 </div>
-                <div class="card-body table-responsive" id="divCategories">
+                <div class="card-body table-responsive" id="divBrands">
                     <!--List of products here-->
                 </div>
             </div>
@@ -38,21 +38,24 @@
     </div>
 </section>
 
-<!-- Modal Create Catgory -->
-<div class="modal fade" id="modal-create-category" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Modal Create Brands -->
+<div class="modal fade" id="modal-create-brand" tabindex="-1" role="dialog" aria-hidden="true">
 
 </div>
 
-<!-- Modal Edit Category -->
-<div class="modal fade" id="modal-edit-category" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Modal Edit Brands -->
+<div class="modal fade" id="modal-edit-brand" tabindex="-1" role="dialog" aria-hidden="true">
 
 </div>
-<script src="~/js/Cagetories.js"></script>
+
+<script src="~/js/Brands.js"></script>
 @section Scripts{ 
+
     <script>
+
         $(document).ready(function () {
-            GetCategories().then(categories => {
-                $("#divCategories").html(categories);
+            GetBrands().then(brands => {
+                $("#divBrands").html(brands);
             }).catch(error => {
                 Swal.fire({
                     icon: 'error',
@@ -62,25 +65,25 @@
             });
         });
 
-        $("#btnLoadFormCreateCategory").click(function () {
 
-            LoadFormCreateCategory().then(form => {
-                $("#modal-create-category").html(form);
+        $("#btnLoadFormCreateBrand").click(function () {
 
-                $("#modal-create-category").modal("show");
+            LoadFormCreateBrand().then(form => {
+
+                $("#modal-create-brand").html(form);
+
+                $("#modal-create-brand").modal("show");
             }).catch(error => {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops...',
+                    title: 'Oops... Ha ocurrido un error',
                     text: error
                 });
             });
         });
+
 
     </script>
+
 }
-
-
-
-
 

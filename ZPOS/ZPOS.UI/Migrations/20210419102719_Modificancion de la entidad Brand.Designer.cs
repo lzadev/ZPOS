@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZPOS.UI.Context;
 
 namespace ZPOS.UI.Migrations
 {
     [DbContext(typeof(ZposContext))]
-    partial class ZposContextModelSnapshot : ModelSnapshot
+    [Migration("20210419102719_Modificancion de la entidad Brand")]
+    partial class ModificanciondelaentidadBrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

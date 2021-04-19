@@ -1,15 +1,14 @@
-﻿function GetCategories() {
+﻿function GetBrands() {
     return new Promise((resolve, reject) => {
         $.ajax({
             method: "GET",
-            url: "/Categories/GetCategories",
+            url: '/Brands/GetBrands',
             contentType: "charset=UTF-8",
             dataType: "html",
             async: true,
             cache: false
-        }).done((categories) => {
-            resolve(categories);
-
+        }).done((result) => {
+            resolve(result);
         }).fail((jqXHR, textStatus, errorThrown) => {
             reject(jqXHR.responseText);
         });
@@ -17,12 +16,11 @@
 }
 
 
-
-function DeleteCategory(id) {
+function DeleteBrand(id) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "DELETE",
-            url: `/Categories/DeleteCategory?id=${id}`,
+            url: `/Brands/DeleteBrand?id=${id}`,
             dataType: "json",
             async: true
         }).done(function (result) {
@@ -34,11 +32,11 @@ function DeleteCategory(id) {
 }
 
 
-function LoadFormCreateCategory() {
+function LoadFormCreateBrand() {
     return new Promise((resolve, reject) => {
         $.ajax({
             method: "GET",
-            url: "/Categories/PostCategory",
+            url: '/Brands/PostBrand',
             contentType: "charset=UTF-8",
             dataType: "html",
             async: true,
@@ -54,11 +52,11 @@ function LoadFormCreateCategory() {
 }
 
 
-function SaveNewCategory(model) {
+function SaveNewBrand(model) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "Categories/PostCategory",
+            url: "Brands/PostBrand",
             data: model,
             dataType: "json",
             async: true
@@ -72,11 +70,11 @@ function SaveNewCategory(model) {
 }
 
 
-function LoadFormEditCategory(id) {
+function LoadFormEditBrand(id) {
     return new Promise((resolve, reject) => {
         $.ajax({
             method: "GET",
-            url: `/Categories/EditCategory?id=${id}`,
+            url: `/Brands/EditBrand?id=${id}`,
             contentType: "charset=UTF-8",
             dataType: "html",
             async: true,
@@ -91,15 +89,15 @@ function LoadFormEditCategory(id) {
     });
 }
 
-
-function SaveCategoryEdited(model) {
+function SaveEditedBrand(model) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "PUT",
-            url: "Categories/EditCategory",
-            dataType: "json",
+            url: "Brands/EditBrand",
             data: model,
+            dataType: "json",
             async: true
+
         }).done(function (result) {
             resolve(result);
         }).fail(function (jqXHR, textStatus, errorThrown) {
