@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Administrar clientes</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Inicio</a></li>
+                    <li class="breadcrumb-item active">Clientes</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content pl-4 pr-4">
+    <div class="row">
+        <div class="col-12 p-0">
+            <!--card-->
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <a class="btn btn-primary font-weight-bold text-white justify-content-end" id="btnLoadFormCreateClient">Agregar cliente</a>
+                </div>
+                <div class="card-body table-responsive" id="divClients">
+                    <!--List of products here-->
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+<!-- Modal Create Brands -->
+<div class="modal fade" id="modal-create-client" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
+
+<!-- Modal Edit Brands -->
+<div class="modal fade" id="modal-edit-client" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
+
+<script src="~/js/Clients.js"></script>
+@section Scripts{ 
+<script>
+    $(document).ready(function () {
+        GetClients().then(clients => {
+            $("#divClients").html(clients);
+        }).catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error
+            });
+        });
+    })
+
+
+    $("#btnLoadFormCreateClient").click(function () {
+
+        LoadFormCreateClient().then(form => {
+
+            $("#modal-create-client").html(form);
+
+            $("#modal-create-client").modal("show");
+        }).catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Ha ocurrido un error',
+                text: error
+            });
+        });
+    });
+</script>
+}
+

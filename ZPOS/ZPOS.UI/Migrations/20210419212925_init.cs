@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ZPOS.UI.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace ZPOS.UI.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,6 +34,25 @@ namespace ZPOS.UI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Document = table.Column<string>(maxLength: 20, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    Email = table.Column<string>(maxLength: 50, nullable: false),
+                    Phone = table.Column<string>(maxLength: 10, nullable: false),
+                    Address = table.Column<string>(maxLength: 400, nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -45,7 +64,8 @@ namespace ZPOS.UI.Migrations
                     BrandID = table.Column<int>(nullable: false),
                     BuyPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false)
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,14 +74,12 @@ namespace ZPOS.UI.Migrations
                         name: "FK_Products_Brands_BrandID",
                         column: x => x.BrandID,
                         principalTable: "Brands",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Products_Categories_CategoryID",
                         column: x => x.CategoryID,
                         principalTable: "Categories",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.InsertData(
@@ -87,18 +105,18 @@ namespace ZPOS.UI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ID", "BrandID", "BuyPrice", "CategoryID", "Code", "CreationDate", "Description", "SellPrice" },
-                values: new object[] { 2, 1, 850.50m, 1, "002238", new DateTime(2021, 4, 13, 5, 14, 16, 835, DateTimeKind.Local).AddTicks(9203), "Chancletas sport size 10", 1600.38m });
+                columns: new[] { "ID", "BrandID", "BuyPrice", "CategoryID", "Code", "CreationDate", "Description", "SellPrice", "Status" },
+                values: new object[] { 2, 1, 850.50m, 1, "002238", new DateTime(2021, 4, 19, 17, 29, 24, 686, DateTimeKind.Local).AddTicks(795), "Chancletas sport size 10", 1600.38m, false });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ID", "BrandID", "BuyPrice", "CategoryID", "Code", "CreationDate", "Description", "SellPrice" },
-                values: new object[] { 3, 4, 850.50m, 2, "002256", new DateTime(2021, 4, 13, 5, 14, 16, 835, DateTimeKind.Local).AddTicks(9231), "T shirt crema ", 1600.38m });
+                columns: new[] { "ID", "BrandID", "BuyPrice", "CategoryID", "Code", "CreationDate", "Description", "SellPrice", "Status" },
+                values: new object[] { 3, 4, 850.50m, 2, "002256", new DateTime(2021, 4, 19, 17, 29, 24, 686, DateTimeKind.Local).AddTicks(819), "T shirt crema ", 1600.38m, false });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ID", "BrandID", "BuyPrice", "CategoryID", "Code", "CreationDate", "Description", "SellPrice" },
-                values: new object[] { 1, 1, 400.50m, 3, "002236", new DateTime(2021, 4, 13, 5, 14, 16, 834, DateTimeKind.Local).AddTicks(8282), "Meidas unisex x3", 600m });
+                columns: new[] { "ID", "BrandID", "BuyPrice", "CategoryID", "Code", "CreationDate", "Description", "SellPrice", "Status" },
+                values: new object[] { 1, 1, 400.50m, 3, "002236", new DateTime(2021, 4, 19, 17, 29, 24, 685, DateTimeKind.Local).AddTicks(2571), "Meidas unisex x3", 600m, false });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandID",
@@ -113,6 +131,9 @@ namespace ZPOS.UI.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Clients");
+
             migrationBuilder.DropTable(
                 name: "Products");
 

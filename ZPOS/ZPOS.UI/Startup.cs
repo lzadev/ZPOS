@@ -35,6 +35,9 @@ namespace ZPOS.UI
             services.AddScoped<ICategory, CategoryRepository>();
             services.AddScoped<ICategoryServices, CategoryServices>();
 
+            services.AddScoped<IClient, ClientRepository>();
+            services.AddScoped<IClientServices, ClientServices>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

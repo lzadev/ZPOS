@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ZPOS.UI.Models.BrandVM>
+﻿@model IEnumerable<ZPOS.UI.Models.ClientVM>
 <style>
     .btnDelete {
         color: white !important;
@@ -13,28 +13,39 @@
 <table class="table table-head-fixed text-nowrap table-striped table-bordered table-sm mt-4" id="table">
     <thead>
         <tr>
-            <th width="50%">Nombre</th>
+            <th>Nombre completo</th>
+            <th>Documento</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th width="25%">Dirección</th>
+            <th>Agregado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var brand in Model)
+        @foreach (var client in Model)
         {
-            <tr>
-                <td>@brand.Name</td>
-                <td>
-                    <a data-brandId="@brand.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></a> | <a data-brandId="@brand.ID" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i></a>
-                </td>
-            </tr>
+        <tr>
+            <td>@client.CompletedName</td>
+            <td>@client.Document</td>
+            <td>@client.Email</td>
+            <td>@client.Phone</td>
+            <td>@client.Address</td>
+            <td>@client.CreationDate</td>
+            <td>
+                <a data-clientId="@client.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></a> | <a data-clientId="@client.ID" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i></a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
 <script src="~/js/configDataTable.js"></script>
-<script src="~/js/Brands.js"></script>
+<script src="~/js/Clients.js"></script>
+
 <script>
     $('.btnDelete').on('click', function () {
-        var id = $(this).attr("data-brandId");
+        var id = $(this).attr("data-clientId");
 
         Swal.fire({
             title: '¿Estas seguro?',
@@ -46,14 +57,14 @@
             confirmButtonText: 'Si, eliminalo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                DeleteBrand(id).then(result => {
+                DeleteClient(id).then(result => {
                     Swal.fire(
                         'Eliminado!',
                         result,
                         'success'
                     )
 
-                    GetBrands().then(brands => {
+                    GetClients().then(brands => {
                         $("#divBrands").html(brands);
                     }).catch(error => {
                         Swal.fire({
@@ -72,21 +83,5 @@
                 });
             }
         })
-    });
-
-
-    $('.btnEdit').click(function () {
-        var id = $(this).attr("data-brandId");
-        LoadFormEditBrand(id).then(form => {
-            $("#modal-edit-brand").html(form);
-
-            $("#modal-edit-brand").modal("show");
-        }).catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: error
-            });
-        });
     });
 </script>

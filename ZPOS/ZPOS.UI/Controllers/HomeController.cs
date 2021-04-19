@@ -17,14 +17,16 @@ namespace ZPOS.UI.Controllers
         private readonly IProductServices _productServices;
         private readonly ICategoryServices _categoryServices;
         private readonly IBrandServices _brandServices;
+        private readonly IClientServices _clientServices;
 
         public HomeController(ILogger<HomeController> logger, IProductServices productServices,ICategoryServices categoryServices,
-            IBrandServices brandServices)
+            IBrandServices brandServices,IClientServices clientServices)
         {
             _logger = logger;
             _productServices = productServices ?? throw new ArgumentNullException(nameof(productServices));
             _categoryServices = categoryServices ?? throw new ArgumentNullException(nameof(categoryServices));
             _brandServices = brandServices ?? throw new ArgumentNullException(nameof(brandServices));
+            _clientServices = clientServices ?? throw new ArgumentNullException(nameof(brandServices));
         }
 
         public IActionResult Index()
@@ -33,7 +35,8 @@ namespace ZPOS.UI.Controllers
             {
                 TotalOfPorducts = _productServices.GetProducts().Count(),
                 TotalOfCategries = _categoryServices.GetCategories().Count(),
-                TotalOfBrands = _brandServices.GetBrands().Count()
+                TotalOfBrands = _brandServices.GetBrands().Count(),
+                TotalOfClients = _clientServices.GetClients().Count()
             };
 
             return View(dashBoard);

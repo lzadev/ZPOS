@@ -92,6 +92,54 @@ namespace ZPOS.UI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ZPOS.UI.Entities.Client", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(10);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Clients");
+                });
+
             modelBuilder.Entity("ZPOS.UI.Entities.Product", b =>
                 {
                     b.Property<int>("ID")
@@ -142,7 +190,7 @@ namespace ZPOS.UI.Migrations
                             BuyPrice = 400.50m,
                             CategoryID = 3,
                             Code = "002236",
-                            CreationDate = new DateTime(2021, 4, 19, 6, 27, 18, 860, DateTimeKind.Local).AddTicks(8188),
+                            CreationDate = new DateTime(2021, 4, 19, 17, 53, 9, 818, DateTimeKind.Local).AddTicks(9342),
                             Description = "Meidas unisex x3",
                             SellPrice = 600m,
                             Status = false
@@ -154,7 +202,7 @@ namespace ZPOS.UI.Migrations
                             BuyPrice = 850.50m,
                             CategoryID = 1,
                             Code = "002238",
-                            CreationDate = new DateTime(2021, 4, 19, 6, 27, 18, 861, DateTimeKind.Local).AddTicks(7550),
+                            CreationDate = new DateTime(2021, 4, 19, 17, 53, 9, 819, DateTimeKind.Local).AddTicks(8598),
                             Description = "Chancletas sport size 10",
                             SellPrice = 1600.38m,
                             Status = false
@@ -166,7 +214,7 @@ namespace ZPOS.UI.Migrations
                             BuyPrice = 850.50m,
                             CategoryID = 2,
                             Code = "002256",
-                            CreationDate = new DateTime(2021, 4, 19, 6, 27, 18, 861, DateTimeKind.Local).AddTicks(7592),
+                            CreationDate = new DateTime(2021, 4, 19, 17, 53, 9, 819, DateTimeKind.Local).AddTicks(8634),
                             Description = "T shirt crema ",
                             SellPrice = 1600.38m,
                             Status = false

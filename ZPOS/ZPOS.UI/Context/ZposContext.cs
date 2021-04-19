@@ -10,6 +10,8 @@ namespace ZPOS.UI.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
         public ZposContext(DbContextOptions<ZposContext> options) : base(options)
         {
 

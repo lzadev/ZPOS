@@ -7,5 +7,7 @@
         public int TotalOfCategries { get; set; }
 
         public int TotalOfBrands { get; set; }
+
+        public int TotalOfClients { get; set; }
     }
 }
