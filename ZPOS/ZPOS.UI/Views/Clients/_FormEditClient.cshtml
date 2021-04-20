@@ -1,10 +1,9 @@
-﻿@model ZPOS.UI.Models.CreateClientVM
-
+﻿@model ZPOS.UI.Models.UpdateClienteVM
 
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Agregar cliente</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Editar cliente</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -12,6 +11,7 @@
         <div class="modal-body">
             <form id="formClient" method="post" asp-antiforgery="false">
                 <div class="form-row">
+                    <input asp-for="ID" hidden />
                     <div class="form-group col-md-12">
                         <label asp-for="FirstName">Nombre</label>
                         <input asp-for="FirstName" class="form-control">
@@ -67,12 +67,8 @@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/lib/jquery.inputmask/jquery.inputmask.min.js"></script>
 <script src="~/js/Client.js"></script>
-<script> 
-    $(document).ready(function () {
-        $("#Document").inputmask({ regex: "^[0-9]+$" });
-        $("#Phone").inputmask({ "mask": "(999)9999999" });
-    });
 
+<script>
     $('#saveClient').on('click', function () {
         if ($("#formClient").valid()) {
             $('#saveClient').attr('disabled', true);
@@ -82,14 +78,14 @@
             model.Phone = model.Phone.replace(")", "");
 
 
-            SaveNewClient(model).then((result) => {
+            SaveEditedClient(model).then((result) => {
                 Swal.fire(
                     'Transaccíon con exito!',
                     result,
                     'success'
                 );
 
-                $("#modal-create-client").modal("hide");
+                $("#modal-edit-client").modal("hide");
 
                 GetClients().then(brands => {
                     $("#divClients").html(brands);
@@ -111,5 +107,4 @@
         }
         return false;
     });
-
 </script>

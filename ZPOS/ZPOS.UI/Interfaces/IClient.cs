@@ -14,5 +14,7 @@ namespace ZPOS.UI.Interfaces
         bool DeleteClient(Client client);
 
         bool UpdateClient(Client client);
+
+        bool Exists(string document);
     }
 }

@@ -17,7 +17,7 @@ namespace ZPOS.UI.Entities
         [Required]
         [MaxLength(50)]
         public string LastName { get; set; }
-        [Required]
+
         [MaxLength(50)]
         [EmailAddress]
         public string Email { get; set; }

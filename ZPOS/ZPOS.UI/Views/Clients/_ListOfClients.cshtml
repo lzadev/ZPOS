@@ -41,9 +41,29 @@
 </table>
 
 <script src="~/js/configDataTable.js"></script>
-<script src="~/js/Clients.js"></script>
+<script src="~/js/Client.js"></script>
 
 <script>
+
+    $(".btnEdit").click(function () {
+        var id = $(this).attr("data-clientId");
+        LoadFormEditClient(id).then(form => {
+
+            $("#modal-edit-client").html(form);
+
+            $("#modal-edit-client").modal("show");
+        }).catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Ha ocurrido un error',
+                text: error
+            });
+        });
+    });
+
+
+
+
     $('.btnDelete').on('click', function () {
         var id = $(this).attr("data-clientId");
 

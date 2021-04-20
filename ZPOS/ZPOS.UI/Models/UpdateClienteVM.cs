@@ -2,8 +2,9 @@
 
 namespace ZPOS.UI.Models
 {
-    public class CreateClientVM
+    public class UpdateClienteVM
     {
+        public int ID { get; set; }
         [Required(ErrorMessage = "campo requerido")]
         [MaxLength(20)]
         public string Document { get; set; }

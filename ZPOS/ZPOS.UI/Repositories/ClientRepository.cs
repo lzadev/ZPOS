@@ -29,6 +29,11 @@
             return Save();
         }
 
+        public bool Exists(string document)
+        {
+            return _context.Clients.Any(c => c.Document == document);
+        }
+
         public Client GetClientById(int id)
         {
             return _context.Clients.FirstOrDefault(c => c.ID == id);

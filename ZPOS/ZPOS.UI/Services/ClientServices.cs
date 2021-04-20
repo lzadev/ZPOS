@@ -22,6 +22,11 @@
             return _clientRepository.DeleteClient(client);
         }
 
+        public bool Exists(string document)
+        {
+            return _clientRepository.Exists(document);
+        }
+
         public Client GetClientById(int id)
         {
             return _clientRepository.GetClientById(id);

@@ -10,6 +10,12 @@ namespace ZPOS.UI.Profiles
         {
             CreateMap<Client, ClientVM>()
                 .ForMember(c => c.CompletedName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+
+            CreateMap<CreateClientVM, Client>();
+
+            CreateMap<Client, UpdateClienteVM>();
+
+            CreateMap<UpdateClienteVM, Client>();
         }
     }
 }
