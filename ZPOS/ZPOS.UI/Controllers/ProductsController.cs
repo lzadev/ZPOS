@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ using ZPOS.UI.Models;
 
 namespace ZPOS.UI.Controllers
 {
+
     public class ProductsController : Controller
     {
         private readonly IProductServices _productServices;
@@ -81,10 +83,9 @@ namespace ZPOS.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (model.BuyPrice > model.SellPrice)
-                    {
-                        return BadRequest("El precio de venta de ser mayor al de compra");
-                    }
+                    if(!_productServices.Exists(model.Description)) return BadRequest("Este producto ha sido creado anteriormente");
+
+                    if (model.BuyPrice > model.SellPrice) return BadRequest("El precio de venta de ser mayor al de compra");
 
                     model.CreationDate = DateTime.Now;
 
@@ -92,12 +93,11 @@ namespace ZPOS.UI.Controllers
 
                     productToCreate.Status = true;
 
-                    var result = _productServices.AddProduct(productToCreate);
+                    _productServices.AddProduct(productToCreate);
 
-                    if (!result)
-                    {
-                        return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
-                    }
+                    var result = _productServices.Save();
+
+                    if (!result) return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
 
                     return Json("El producto ha sido agregado");
                 }
@@ -184,25 +184,35 @@ namespace ZPOS.UI.Controllers
                     var productToEdit = _productServices.GetPrductById(model.ID);
 
                     if (productToEdit == null) return BadRequest("El producto que trata de actualizar no existe!");
-                    if (model.BuyPrice > model.SellPrice)
+                    if (model.BuyPrice > model.SellPrice) return BadRequest("El precio de venta tiene que ser mayor al de compra");
+
+                    productToEdit.Updated = true;
+
+                    //Actualizo el producto actual en la base de datos.
+
+                    _productServices.UpdateProduct(productToEdit);
+
+                    //Creo el nuevo producto
+                    var product = new Product()
                     {
-                        return BadRequest("El precio de venta tiene que ser mayor al de compra");
-                    }
+                        Code = productToEdit.Code,
+                        Description = model.Description,
+                        CategoryID = model.CategoryID,
+                        BrandID = model.BrandID,
+                        BuyPrice = model.BuyPrice,
+                        SellPrice = model.SellPrice,
+                        CreationDate = productToEdit.CreationDate,
+                        ModificationDate = DateTime.Now,
+                        Status = model.Status,
+                        Updated = false,
+                        Deleted = false
+                    };
 
-                    productToEdit.Description = model.Description;
-                    productToEdit.CategoryID = model.CategoryID;
-                    productToEdit.BrandID = model.BrandID;
-                    productToEdit.BuyPrice = model.BuyPrice;
-                    productToEdit.SellPrice = model.SellPrice;
-                    productToEdit.Status = model.Status;
+                    _productServices.AddProduct(product);
 
-                    var result = _productServices.UpdateProduct(productToEdit);
+                    var result = _productServices.Save();
 
-                    if (!result)
-                    {
-                        return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
-                    }
-
+                    if (!result) return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
                     return Json("Producto actualizado con exito.!");
                 }
 
@@ -214,6 +224,36 @@ namespace ZPOS.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Algo salio mal, contacta el Administrador");
             }
         }
+
+        [HttpGet]
+        public IActionResult AuditProduct(string ProductCode)
+        {
+            var productHistorial = _productServices.GetProductHistorial(ProductCode);
+
+            var productToAudit = new List<AuditProductVM>();
+
+            foreach (var product in productHistorial)
+            {
+                productToAudit.Add(new AuditProductVM
+                {
+                    Code = product.Code,
+                    Description = product.Description,
+                    Category = product.Categories.Name,
+                    Brand = product.Brands.Name,
+                    BuyPrice = product.BuyPrice,
+                    SellPrice = product.SellPrice,
+                    CreationDate = product.CreationDate,
+                    ModificationDate = product.ModificationDate,
+                    Status = product.Status,
+                    Updated = product.Updated
+                });
+            }
+
+            return View(productToAudit);
+        }
+
+
+        #region Methods
 
         private List<CategoryVM> GetCategories()
         {
@@ -240,5 +280,18 @@ namespace ZPOS.UI.Controllers
             return codeGeneratedFoProduct;
         }
 
+        //Validando que el produto no exista
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult Exists(string description)
+        {
+            if (!_productServices.Exists(description))
+            {
+                return Json($"Este producto ya existe");
+            }
+
+            return Json(true);
+        }
+
+        #endregion
     }
 }

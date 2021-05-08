@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form id="formBrand" method="post" asp-antiforgery="false">
+            <form id="formEditBrand" method="post" asp-antiforgery="false">
                 <input asp-for="ID" hidden/>
                 <div class="form-row">
                     <div class="form-group col-md-12">
@@ -22,7 +22,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="saveBrand" class="btn btn-primary">Guardar</button>
+            <button type="button" id="saveEditedBrand" class="btn btn-primary">Guardar</button>
         </div>
     </div>
 </div>
@@ -32,10 +32,15 @@
 <script src="~/js/Brands.js"></script>
 
 <script>
-    $('#saveBrand').on('click', function () {
-        if ($("#formBrand").valid()) {
-            $('#saveBrand').attr('disabled', true);
-            var model = $('#formBrand').serializeObject();
+
+    $("#formEditBrand").submit(function (event) {
+        event.preventDefault();
+    });
+
+    $('#saveEditedBrand').on('click', function () {
+        if ($("#formEditBrand").valid()) {
+            $('#saveEditedBrand').attr('disabled', true);
+            var model = $('#formEditBrand').serializeObject();
 
             SaveEditedBrand(model).then((result) => {
                 Swal.fire(

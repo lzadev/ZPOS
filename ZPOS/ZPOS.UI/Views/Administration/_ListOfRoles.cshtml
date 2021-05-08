@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ZPOS.UI.Models.RoleVM>
+<style>
+    .btnDelete {
+        color: white !important;
+        font-weight: bold !important;
+    }
+
+    .btnEdit {
+        color: white !important;
+        font-weight: bold !important;
+    }
+
+    .badge {
+        font-size: 14px !important;
+    }
+</style>
+<table class="table table-head-fixed text-nowrap table-striped table-bordered table-sm mt-4" id="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    <a data-userId="@role.Id" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></a> |
+                    <a data-userId="@role.Id" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/js/configDataTable.js"></script>
+
+<script>
+    //$('.btnDelete').on('click', function () {
+    //    var id = $(this).attr("data-brandId");
+
+    //    Swal.fire({
+    //        title: '¿Estas seguro?',
+    //        text: "Esta transacción no tiene reverso!!!",
+    //        icon: 'warning',
+    //        showCancelButton: true,
+    //        confirmButtonColor: '#007bff',
+    //        cancelButtonColor: '#dc3545',
+    //        confirmButtonText: 'Si, eliminalo!'
+    //    }).then((result) => {
+    //        if (result.isConfirmed) {
+    //            DeleteBrand(id).then(result => {
+    //                Swal.fire(
+    //                    'Eliminado!',
+    //                    result,
+    //                    'success'
+    //                )
+
+    //                GetBrands().then(brands => {
+    //                    $("#divBrands").html(brands);
+    //                }).catch(error => {
+    //                    Swal.fire({
+    //                        icon: 'error',
+    //                        title: 'Oops...',
+    //                        text: error
+    //                    });
+    //                });
+
+    //            }).catch(error => {
+    //                Swal.fire({
+    //                    icon: 'error',
+    //                    title: 'Oops...',
+    //                    text: error
+    //                });
+    //            });
+    //        }
+    //    })
+    //});
+
+
+    //$('.btnEdit').click(function () {
+    //    var id = $(this).attr("data-brandId");
+    //    LoadFormEditBrand(id).then(form => {
+    //        $("#modal-edit-brand").html(form);
+
+    //        $("#modal-edit-brand").modal("show");
+    //    }).catch(error => {
+    //        Swal.fire({
+    //            icon: 'error',
+    //            title: 'Oops...',
+    //            text: error
+    //        });
+    //    });
+    //});
+</script>

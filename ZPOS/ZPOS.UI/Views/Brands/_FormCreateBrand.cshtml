@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form id="formBrand" method="post" asp-antiforgery="false">
+            <form id="formCreateBrand" method="post" asp-antiforgery="false">
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label asp-for="Name">Nombre</label>
@@ -17,11 +17,15 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" id="saveBrand" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                </div>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="saveBrand" class="btn btn-primary">Guardar</button>
         </div>
     </div>
 </div>
@@ -31,10 +35,14 @@
 <script src="~/js/Brands.js"></script>
 
 <script>
+    $("#formCreateBrand").submit(function (event) {
+        event.preventDefault();
+    });
+
     $('#saveBrand').on('click', function () {
-        if ($("#formBrand").valid()) {
+        if ($("#formCreateBrand").valid()) {
             $('#saveBrand').attr('disabled', true);
-            var model = $('#formBrand').serializeObject();
+            var model = $('#formCreateBrand').serializeObject();
 
             SaveNewBrand(model).then((result) => {
                 Swal.fire(

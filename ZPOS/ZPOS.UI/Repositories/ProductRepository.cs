@@ -17,11 +17,16 @@ namespace ZPOS.UI.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public bool AddProduct(Product product)
+        public bool Exists(string description)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Description.ToLower() == description.ToLower());
+
+            return product == null;
+        }
+
+        public void AddProduct(Product product)
         {
             _context.Add(product);
-
-            return Save();
         }
 
         public bool DeleteProduct(Product product)
@@ -33,6 +38,7 @@ namespace ZPOS.UI.Repositories
 
         public bool ExistsCode(string code)
         {
+
             return _context.Products.Any(p => p.Code == code);
         }
 
@@ -43,17 +49,27 @@ namespace ZPOS.UI.Repositories
 
         public IEnumerable<Product> GetProducts()
         {
-            return _context.Products.Include(p => p.Categories).Include(p =>p.Brands);
+            //sp_ListProducts
+            var products = _context.Products.Include(p => p.Categories).Include(p => p.Brands).Where(p => p.Deleted == false);
+
+            products = products.Where(p => p.Updated == false);
+
+            return products;
         }
 
-        public bool UpdateProduct(Product product)
+        public IEnumerable<Product> GetProductHistorial(string ProductCode)
+        {
+            var productHistorial = _context.Products.Include(p => p.Categories).Include(p => p.Brands).Where(p => p.Code == ProductCode);
+
+            return productHistorial;
+        }
+
+        public void UpdateProduct(Product product)
         {
             _context.Products.Update(product);
-
-            return Save();
         }
 
-        private bool Save()
+        public bool Save()
         {
             return _context.SaveChanges() > 0;
         }

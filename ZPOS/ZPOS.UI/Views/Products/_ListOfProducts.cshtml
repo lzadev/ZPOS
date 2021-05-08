@@ -34,11 +34,13 @@
                 <td>@product.Brand</td>
                 <td>@product.BuyPrice</td>
                 <td>@product.SellPrice</td>
-                @if (product.Status) {<td class="text-success font-weight-bold">Activo</td> }
-                else {<td class="text-danger font-weight-bold">Inactivo</td>}
+                @if (product.Status) {<td><span class="badge badge-success">Activo</span></td> }
+                else {<td><span class="badge badge-danger">Inactivo</span></td>}
                 <td>@product.CreationDate</td>
                 <td>
-                    <a data-productId="@product.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></a> | <a data-productId="@product.ID" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i></a>
+                    <button data-productId="@product.ID" title="Editar" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></button> |
+                    <button data-productId="@product.ID" title="Eliminar" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i></button> |
+                    <a asp-action="AuditProduct" asp-controller="Products" asp-route-ProductCode="@product.Code" title="Auditar" class="btn btn-info btnAudit"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             }

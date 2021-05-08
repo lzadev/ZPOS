@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,7 @@ namespace ZPOS.UI.Models
         public string Code { get; set; }
         [Required(ErrorMessage = "campo requerido")]
         [MaxLength(200)]
+        [Remote(action: "Exists", controller: "Products")]
         public string Description { get; set; }
         [Required(ErrorMessage = "campo requerido")]
         public int CategoryID { get; set; }

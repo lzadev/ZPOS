@@ -26,9 +26,9 @@ namespace ZPOS.UI.Services
             return _productRepository.ExistsCode(code);
         }
 
-        public bool AddProduct(Product product)
+        public void AddProduct(Product product)
         {
-            return _productRepository.AddProduct(product);
+           _productRepository.AddProduct(product);
         }
 
         public Product GetPrductById(int id)
@@ -41,9 +41,24 @@ namespace ZPOS.UI.Services
             return _productRepository.DeleteProduct(product);
         }
 
-        public bool UpdateProduct(Product product)
+        public void UpdateProduct(Product product)
         {
-            return _productRepository.UpdateProduct(product);
+            _productRepository.UpdateProduct(product);
+        }
+
+        public bool Exists(string description)
+        {
+            return _productRepository.Exists(description);
+        }
+
+        public bool Save()
+        {
+            return _productRepository.Save();
+        }
+
+        public IEnumerable<Product> GetProductHistorial(string ProductCode)
+        {
+            return _productRepository.GetProductHistorial(ProductCode);
         }
     }
 }

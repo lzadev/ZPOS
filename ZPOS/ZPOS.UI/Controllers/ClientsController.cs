@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using ZPOS.UI.Models;
 
 namespace ZPOS.UI.Controllers
 {
+
     public class ClientsController : Controller
     {
         private readonly IClientServices _clientServices;

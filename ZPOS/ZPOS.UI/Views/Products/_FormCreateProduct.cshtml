@@ -9,11 +9,11 @@
             </button>
         </div>
         <div class="modal-body">
-            <form id="formProduct" method="post" asp-antiforgery="false">
+            <form id="formCreateProduct" method="post" asp-antiforgery="false">
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label asp-for="Code">Código</label>
-                        <input type="text" class="form-control" asp-for="Code"  readonly>
+                        <input type="text" class="form-control" asp-for="Code" readonly>
                         <span asp-validation-for="Code" class="text-danger"></span>
                     </div>
                 </div>
@@ -52,11 +52,15 @@
                         <span class="text-danger" asp-validation-for="SellPrice"></span>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" id="saveProduct" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                </div>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="saveProduct" class="btn btn-primary">Guardar</button>
         </div>
     </div>
 </div>
@@ -69,16 +73,20 @@
     //MASCARA PARA LOS INPUTS BuyPrice Y SellPrice
     $("#BuyPrice").inputmask('currency', {
         rightAlign: false
-    })
+    });
 
     $("#SellPrice").inputmask('currency', {
         rightAlign: false
-    })
+    });
+
+    $("#formCreateProduct").submit(function (event) {
+        event.preventDefault();
+    });
 
     $('#saveProduct').on('click', function () {
-        if ($("#formProduct").valid()) {
+        if ($("#formCreateProduct").valid()) {
             $('#saveProduct').attr('disabled', true);
-            var model = $('#formProduct').serializeObject();
+            var model = $('#formCreateProduct').serializeObject();
             SaveNewProduct(model).then((result) => {
                 Swal.fire(
                     'Transaccíon con exito!',
@@ -101,7 +109,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: error.message
+                    text: error
                 });
                 $('#saveProduct').attr('disabled', false);
             });

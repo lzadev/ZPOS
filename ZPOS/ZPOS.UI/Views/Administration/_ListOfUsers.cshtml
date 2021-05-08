@@ -1,0 +1,114 @@
+﻿@model IEnumerable<ZPOS.UI.Models.UserVM>
+<style>
+    .btnDelete {
+        color: white !important;
+        font-weight: bold !important;
+    }
+
+    .btnEdit {
+        color: white !important;
+        font-weight: bold !important;
+    }
+
+    .badge{
+        font-size:14px !important;
+    }
+</style>
+<table class="table table-head-fixed text-nowrap table-striped table-bordered table-sm mt-4" id="table">
+    <thead>
+        <tr>
+            <th>Nombre completo</th>
+            <th>Usuario</th>
+            <th>Estado</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+        <tr>
+            <td>@user.CompletedName</td>
+            <td>@user.UserName</td>
+            @{
+
+                if (user.Status)
+                {
+
+
+                    <td><span class="badge badge-success">Activado</span></td>
+                }
+                else
+                {
+                    <td><span class="badge badge-danger">Desactivado</span></td>
+                }
+            }
+            <td><span class="badge badge-primary">@user.Role</span></td>
+            <td>
+                <a data-userId="@user.Id" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></a> |
+                <a data-userId="@user.Id" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<script src="~/js/Users.js"></script>
+<script src="~/js/configDataTable.js"></script>
+
+<script>
+    $('.btnEdit').click(function () {
+        var id = $(this).attr("data-userId");
+        LoadFormEditUser(id).then(form => {
+            $("#modal-edit-user").html(form);
+
+            $("#modal-edit-user").modal("show");
+        }).catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error
+            });
+        });
+    });
+
+    $('.btnDelete').on('click', function () {
+        var id = $(this).attr("data-userId");
+
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Esta transacción no tiene reverso!!!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#007bff',
+            cancelButtonColor: '#dc3545',
+            confirmButtonText: 'Si, eliminalo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                DeleteUser(id).then(result => {
+                    Swal.fire(
+                        'Eliminado!',
+                        result,
+                        'success'
+                    )
+
+                    GetUsers().then(users => {
+                        $("#divUsers").html(users);
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error
+                        });
+                    });
+
+                }).catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error
+                    });
+                });
+            }
+        })
+    });
+</script>

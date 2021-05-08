@@ -5,13 +5,17 @@ namespace ZPOS.UI.Interfaces
 {
     public interface IProduct
     {
+        bool Exists(string description);
         IEnumerable<Product> GetProducts();
-        bool AddProduct(Product product);
+        void AddProduct(Product product);
         bool ExistsCode(string code);
 
         Product GetPrductById(int id);
 
         bool DeleteProduct(Product product);
-        bool UpdateProduct(Product product);
+        void UpdateProduct(Product product);
+        bool Save();
+
+        IEnumerable<Product> GetProductHistorial(string ProductCode);
     }
 }

@@ -42,7 +42,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label asp-for="Phone">Teléfono</label>
-                        <input type="text" class="form-control" asp-for="Phone" min="12">
+                        <input type="text" class="form-control" asp-for="Phone">
                         <span class="text-danger" asp-validation-for="Phone"></span>
                     </div>
                 </div>
@@ -69,6 +69,11 @@
 <script src="~/js/Client.js"></script>
 
 <script>
+    $(document).ready(function () {
+        $("#Document").inputmask({ regex: "^[0-9]+$" });
+        $("#Phone").inputmask({ "mask": "(999)9999999" });
+    });
+
     $('#saveClient').on('click', function () {
         if ($("#formClient").valid()) {
             $('#saveClient').attr('disabled', true);
@@ -76,6 +81,22 @@
 
             model.Phone = model.Phone.replace("(", "");
             model.Phone = model.Phone.replace(")", "");
+
+            model.Phone = model.Phone.replace("_", "");
+
+            var phone = model.Phone;
+
+            if (phone.length < 10) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Número de teléfono no valido'
+                });
+
+                $('#saveClient').attr('disabled', false);
+
+                return;
+            }
 
 
             SaveEditedClient(model).then((result) => {

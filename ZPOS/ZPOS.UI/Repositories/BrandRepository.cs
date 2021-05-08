@@ -37,6 +37,7 @@ namespace ZPOS.UI.Repositories
 
         public IEnumerable<Brand> GetBrands()
         {
+
             return _context.Brands;
         }
 

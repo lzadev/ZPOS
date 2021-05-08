@@ -3,7 +3,7 @@
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Editar producto</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -62,11 +62,15 @@
                         <input asp-for="Status">
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" id="btnSaveProductEdited" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                </div>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="btnSaveProductEdited" class="btn btn-primary">Guardar</button>
         </div>
     </div>
 </div>
@@ -80,11 +84,15 @@
     //MASCARA PARA LOS INPUTS BuyPrice Y SellPrice
     $("#BuyPrice").inputmask('currency', {
         rightAlign: false
-    })
+    });
 
     $("#SellPrice").inputmask('currency', {
         rightAlign: false
-    })
+    });
+
+    $("#formEditProduct").submit(function (event) {
+        event.preventDefault();
+    });
 
     $('#btnSaveProductEdited').on('click', function () {
         if ($("#formEditProduct").valid()) {

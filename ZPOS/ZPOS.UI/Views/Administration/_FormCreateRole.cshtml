@@ -1,0 +1,68 @@
+﻿@model ZPOS.UI.Models.CreateRoleVM
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Agregar rol</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="formRole" method="post" asp-antiforgery="false">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="Name">Nombre</label>
+                        <input type="text" class="form-control" asp-for="Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="saveRole" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery-serialize-object/jquery.serialize-object.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/js/Roles.js"></script>
+
+<script>
+    $('#saveRole').on('click', function () {
+        if ($("#formRole").valid()) {
+            $('#saveRole').attr('disabled', true);
+            var model = $('#formRole').serializeObject();
+            SaveNewRole(model).then((result) => {
+                Swal.fire(
+                    'Transaccíon con exito!',
+                    result,
+                    'success'
+                );
+
+                $("#modal-create-role").modal("hide");
+
+                GetRoles().then(roles => {
+                    $("#divRoles").html(roles);
+                }).catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error
+                    });
+                });
+            }).catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error
+                });
+                $('#saveRole').attr('disabled', false);
+            });
+        }
+        return false;
+    });
+</script>

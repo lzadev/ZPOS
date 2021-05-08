@@ -21,7 +21,15 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                 with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a asp-action="Index" asp-controller="Home" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Inicio
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-warehouse"></i>
@@ -58,10 +66,47 @@
                             Clientes
                         </p>
                     </a>
-                </li>      
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-key"></i>
+                        <p>
+                            Administración
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a asp-action="Usuarios" asp-controller="Administration" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Usuarios</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-action="Roles" asp-controller="Administration" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Roles</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <form asp-action="Logout" asp-controller="Account" method="post" id="formLogout" class="nav-link">
+                        <a style="color:#c2c7d0 !important;cursor:pointer" id="btnLogout">
+                            <i class="fas fa-sign-out-alt nav-icon"></i>
+                            <p>Salir del sistema</p>
+                        </a>
+                    </form>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 </aside>
+<script src="/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $('#btnLogout').on('click', function () {
+        $('#formLogout').submit();
+    })
+</script>

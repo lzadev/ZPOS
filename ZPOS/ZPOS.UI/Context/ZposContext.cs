@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using ZPOS.UI.Context.seedDB;
 using ZPOS.UI.Entities;
 
 namespace ZPOS.UI.Context
 {
-    public class ZposContext : DbContext
+    public class ZposContext : IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -19,9 +20,9 @@ namespace ZPOS.UI.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
-            modelBuilder.ApplyConfiguration(new SeedBrand());
-            modelBuilder.ApplyConfiguration(new SeedCategory());
-            modelBuilder.ApplyConfiguration(new SeedProduct());
+            //modelBuilder.ApplyConfiguration(new SeedBrand());
+            //modelBuilder.ApplyConfiguration(new SeedCategory());
+            //modelBuilder.ApplyConfiguration(new SeedProduct());
 
             base.OnModelCreating(modelBuilder);
 

@@ -33,7 +33,7 @@
             <td>@client.Address</td>
             <td>@client.CreationDate</td>
             <td>
-                <a data-clientId="@client.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></a> | <a data-clientId="@client.ID" class="btn btn-danger btnDelete"><i class="fas fa-trash-alt"></i></a>
+                <a data-clientId="@client.ID" class="btn btn-warning btnEdit"><i class="fas fa-edit"></i></a>
             </td>
         </tr>
         }
@@ -62,46 +62,44 @@
     });
 
 
+    //$('.btnDelete').on('click', function () {
+    //    var id = $(this).attr("data-clientId");
 
+    //    Swal.fire({
+    //        title: '¿Estas seguro?',
+    //        text: "Esta transacción no tiene reverso!!!",
+    //        icon: 'warning',
+    //        showCancelButton: true,
+    //        confirmButtonColor: '#007bff',
+    //        cancelButtonColor: '#dc3545',
+    //        confirmButtonText: 'Si, eliminalo!'
+    //    }).then((result) => {
+    //        if (result.isConfirmed) {
+    //            DeleteClient(id).then(result => {
+    //                Swal.fire(
+    //                    'Eliminado!',
+    //                    result,
+    //                    'success'
+    //                )
 
-    $('.btnDelete').on('click', function () {
-        var id = $(this).attr("data-clientId");
+    //                GetClients().then(brands => {
+    //                    $("#divBrands").html(brands);
+    //                }).catch(error => {
+    //                    Swal.fire({
+    //                        icon: 'error',
+    //                        title: 'Oops...',
+    //                        text: error
+    //                    });
+    //                });
 
-        Swal.fire({
-            title: '¿Estas seguro?',
-            text: "Esta transacción no tiene reverso!!!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#007bff',
-            cancelButtonColor: '#dc3545',
-            confirmButtonText: 'Si, eliminalo!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                DeleteClient(id).then(result => {
-                    Swal.fire(
-                        'Eliminado!',
-                        result,
-                        'success'
-                    )
-
-                    GetClients().then(brands => {
-                        $("#divBrands").html(brands);
-                    }).catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: error
-                        });
-                    });
-
-                }).catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error
-                    });
-                });
-            }
-        })
-    });
+    //            }).catch(error => {
+    //                Swal.fire({
+    //                    icon: 'error',
+    //                    title: 'Oops...',
+    //                    text: error
+    //                });
+    //            });
+    //        }
+    //    })
+    //});
 </script>

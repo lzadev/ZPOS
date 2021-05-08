@@ -9,8 +9,8 @@
             </button>
         </div>
         <div class="modal-body">
-            <form id="formCategory" method="post" asp-antiforgery="false">
-                <input asp-for="ID" hidden/>
+            <form id="formEditCategory" method="post" asp-antiforgery="false">
+                <input asp-for="ID" hidden />
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label asp-for="Name">Nombre</label>
@@ -18,11 +18,15 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" id="saveEditedCategory" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                </div>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="saveCategory" class="btn btn-primary">Guardar</button>
         </div>
     </div>
 </div>
@@ -31,10 +35,14 @@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/js/Cagetories.js"></script>
 <script>
-    $('#saveCategory').on('click', function () {
-        if ($("#formCategory").valid()) {
+    $("#formEditCategory").submit(function (event) {
+        event.preventDefault();
+    });
+
+    $('#saveEditedCategory').on('click', function () {
+        if ($("#formEditCategory").valid()) {
             $('#saveCategory').attr('disabled', true);
-            var model = $('#formCategory').serializeObject();
+            var model = $('#formEditCategory').serializeObject();
 
             SaveCategoryEdited(model).then((result) => {
                 Swal.fire(

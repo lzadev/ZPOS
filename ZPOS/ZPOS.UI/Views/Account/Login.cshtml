@@ -1,0 +1,74 @@
+﻿@model ZPOS.UI.Models.LoginVM
+@{
+    Layout = null;
+    var returnUrl = Context.Request.Query["ReturnUrl"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Entrar al sistema</title>
+    <style>
+        body {
+            background-color: #f0f2f5 !important;
+        }
+    </style>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="card bg-white ml-auto mr-auto" style="width: 30rem; margin-top:170px; border-radius:15px">
+        <div class="card-body p-4">
+            <form id="formLogin">
+                <input asp-for="returnUrl" value="@returnUrl" hidden />
+                <div class="form-group">
+                    <label class="font-weight-bold">Usuario</label>
+                    <input asp-for="UserName" type="text" class="form-control">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Contraseña</label>
+                    <input asp-for="Password" class="form-control">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </form>
+            <button id="btnLogin" class="btn btn-dark btn-block rounded">Entrar</button>
+        </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-serialize-object/jquery.serialize-object.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+        $('#btnLogin').on('click', function () {
+            if ($("#formLogin").valid()) {
+                $('#saveBrand').attr('disabled', true);
+                var model = $('#formLogin').serializeObject();
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/Login",
+                    data: model,
+                    dataType: "json",
+                    async: true
+
+                }).done(function (result) {
+                    location.href = result;
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: jqXHR.responseText
+                    });
+                });
+            }
+            return false;
+        });
+    </script>
+</body>
+</html>

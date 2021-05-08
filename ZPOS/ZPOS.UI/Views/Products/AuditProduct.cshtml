@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ZPOS.UI.Models.AuditProductVM>
+@{
+    ViewData["Title"] = "Auditar Producto";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Auditar producto</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Inicio</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Products">Productos</a></li>
+                    <li class="breadcrumb-item active">Auditar producto</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content pl-4 pr-4">
+    <div class="row">
+        <div class="col-12 p-0">
+            <!--card-->
+            <div class="card card-primary card-outline">
+                <div class="card-body table-responsive">
+                    <table class="table table-head-fixed text-nowrap table-striped table-bordered table-sm mt-4" id="table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Marca</th>
+                                <th>Precio de compra</th>
+                                <th>Precio de venta</th>
+                                <th>Estado</th>
+                                <th>Agregado</th>
+                                <th>Modificado</th>
+                                <th>Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model)
+                            {
+                            <tr>
+                                <td>@product.Code</td>
+                                <td>@product.Description</td>
+                                <td>@product.Category</td>
+                                <td>@product.Brand</td>
+                                <td>@product.BuyPrice</td>
+                                <td>@product.SellPrice</td>
+                                @if (product.Status)
+                                {
+                                    <td><span class="badge badge-success">Activo</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge badge-danger">Inactivo</span></td>
+                                }
+                                <td>@product.CreationDate</td>
+                                <td>@product.ModificationDate</td>
+                                <td>Generico</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+
